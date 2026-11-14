@@ -12,20 +12,20 @@ Dockerized [`webhook`](https://github.com/adnanh/webhook) with useful tools.
 |:-------:|:---------:|
 | `:2.8.3`, `:latest` | [View](variants/2.8.3) |
 | `:2.8.3-libvirt-12` | [View](variants/2.8.3-libvirt-12) |
+| `:2.8.3-curl-git-jq-sops-ssh` | [View](variants/2.8.3-curl-git-jq-sops-ssh) |
 | `:2.8.3-libvirt-11` | [View](variants/2.8.3-libvirt-11) |
 | `:2.8.3-libvirt-10` | [View](variants/2.8.3-libvirt-10) |
 | `:2.8.3-libvirt-9` | [View](variants/2.8.3-libvirt-9) |
 | `:2.8.3-libvirt-8` | [View](variants/2.8.3-libvirt-8) |
-| `:2.8.3-curl-git-jq-sops-ssh` | [View](variants/2.8.3-curl-git-jq-sops-ssh) |
 | `:2.8.3-libvirt-7` | [View](variants/2.8.3-libvirt-7) |
 | `:2.8.3-libvirt-6` | [View](variants/2.8.3-libvirt-6) |
 | `:2.7.0` | [View](variants/2.7.0) |
 | `:2.7.0-libvirt-12` | [View](variants/2.7.0-libvirt-12) |
+| `:2.7.0-curl-git-jq-sops-ssh` | [View](variants/2.7.0-curl-git-jq-sops-ssh) |
 | `:2.7.0-libvirt-11` | [View](variants/2.7.0-libvirt-11) |
 | `:2.7.0-libvirt-10` | [View](variants/2.7.0-libvirt-10) |
 | `:2.7.0-libvirt-9` | [View](variants/2.7.0-libvirt-9) |
 | `:2.7.0-libvirt-8` | [View](variants/2.7.0-libvirt-8) |
-| `:2.7.0-curl-git-jq-sops-ssh` | [View](variants/2.7.0-curl-git-jq-sops-ssh) |
 | `:2.7.0-libvirt-7` | [View](variants/2.7.0-libvirt-7) |
 | `:2.7.0-libvirt-6` | [View](variants/2.7.0-libvirt-6) |
 
@@ -36,15 +36,23 @@ Dockerized [`webhook`](https://github.com/adnanh/webhook) with useful tools.
 ```sh
 # Create hooks.yml, see: https://github.com/adnanh/webhook#configuration
 cat - > hooks.yml <<'EOF'
-- id: hello-world
+- id: short-running
   execute-command: echo
+- id: long-running
+  execute-command: sleep
+  pass-arguments-to-command:
+    - source: string
+      name: infinity
 EOF
 
 # Start container
-docker run -it -p 9000:9000 -v $(pwd)/hooks.yml:/config/hooks.yml:ro theohbrothers/docker-webhook
+docker run --rm --name webhook -it --init -p 9000:9000 -v $(pwd)/hooks.yml:/config/hooks.yml:ro theohbrothers/docker-webhook
 
 # Run the webhook
-wget -qO- "http://$HOSTNAME:9000/hooks/hello-world"
+wget -qO- "http://127.0.0.1:9000/hooks/hello-world"
+wget -qO- "http://127.0.0.1:9000/hooks/long-running"
+# List processes
+docker exec -it webhook ps
 ```
 
 ## FAQ

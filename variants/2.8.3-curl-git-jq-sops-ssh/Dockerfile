@@ -9,7 +9,7 @@ RUN set -eux; \
     cd /src; \
     go build -ldflags="-s -w" -o /usr/local/bin/webhook;
 
-FROM alpine:3.17
+FROM alpine:3.24
 COPY --from=builder /usr/local/bin/webhook /usr/local/bin/webhook
 RUN webhook --version
 

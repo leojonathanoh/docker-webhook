@@ -11,6 +11,7 @@ $local:VARIANTS_MATRIX = @(
             subvariants = @(
                 @{ components = @() }
                 @{ components = @( 'libvirt-12' ) }
+                @{ components = @( 'curl', 'git', 'jq', 'sops', 'ssh' ) }
             )
         }
         @{
@@ -47,7 +48,6 @@ $local:VARIANTS_MATRIX = @(
             distro_version = '3.17'
             subvariants = @(
                 @{ components = @( 'libvirt-8' ) }
-                @{ components = @( 'curl', 'git', 'jq', 'sops', 'ssh' ) }
             )
         }
         @{

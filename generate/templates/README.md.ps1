@@ -37,15 +37,23 @@ $(
 ```sh
 # Create hooks.yml, see: https://github.com/adnanh/webhook#configuration
 cat - > hooks.yml <<'EOF'
-- id: hello-world
+- id: short-running
   execute-command: echo
+- id: long-running
+  execute-command: sleep
+  pass-arguments-to-command:
+    - source: string
+      name: infinity
 EOF
 
 # Start container
-docker run -it -p 9000:9000 -v $(pwd)/hooks.yml:/config/hooks.yml:ro theohbrothers/docker-webhook
+docker run --rm --name webhook -it --init -p 9000:9000 -v $(pwd)/hooks.yml:/config/hooks.yml:ro theohbrothers/docker-webhook
 
 # Run the webhook
-wget -qO- "http://$HOSTNAME:9000/hooks/hello-world"
+wget -qO- "http://127.0.0.1:9000/hooks/hello-world"
+wget -qO- "http://127.0.0.1:9000/hooks/long-running"
+# List processes
+docker exec -it webhook ps
 ```
 
 ## FAQ
