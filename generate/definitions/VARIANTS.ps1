@@ -11,6 +11,7 @@ $local:VARIANTS_MATRIX = @(
             subvariants = @(
                 @{ components = @() }
                 @{ components = @( 'libvirt-12' ) }
+                @{ components = @( 'curl', 'git', 'jq', 'sops', 'ssh' ) }
             )
         }
         @{
@@ -20,6 +21,7 @@ $local:VARIANTS_MATRIX = @(
             distro_version = '3.23'
             subvariants = @(
                 @{ components = @( 'libvirt-11' ) }
+                @{ components = @( 'curl', 'git', 'jq', 'sops', 'ssh' ) }
             )
         }
         @{
@@ -29,6 +31,7 @@ $local:VARIANTS_MATRIX = @(
             distro_version = '3.20'
             subvariants = @(
                 @{ components = @( 'libvirt-10' ) }
+                @{ components = @( 'curl', 'git', 'jq', 'sops', 'ssh' ) }
             )
         }
         @{
@@ -38,6 +41,7 @@ $local:VARIANTS_MATRIX = @(
             distro_version = '3.19'
             subvariants = @(
                 @{ components = @( 'libvirt-9' ) }
+                @{ components = @( 'curl', 'git', 'jq', 'sops', 'ssh' ) }
             )
         }
         @{
